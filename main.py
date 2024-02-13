@@ -36,21 +36,35 @@ class Ball(pygame.sprite.Sprite):
         self.index = 0
         self.grounded = True
 
-    def move(self, timer, up):
+    def move(self, t1mer, up):
         if up == True and self.grounded == True:
             print("AAAA")
-            for life in range(timer):
-                print(timer)
-                self.deltay +=2
+            if t1mer >275:
+                t1mer = 275
+            for life in range(t1mer):
+            
+                print(t1mer)
+                self.deltay -=2
 
             self.y += self.deltay
             self.rect_center = (self.x, self.y)
             self.rect = self.image.get_rect(center = (self.x, self.y))
-            pygame.draw.circle(self.image, self.color, (self.radius, self.radius), self.radius)
+            t1mer = 0
+        
         
             self.grounded = False
 
 
+    def gravity(self):
+        if self.grounded == False:
+            self.y += 1
+            self.rect_center = (self.x, self.y)
+            self.rect = self.image.get_rect(center = (self.x, self.y))
+            
+        if self.y >= 575:
+            self.grounded = True
+            self.y = 575
+            self.deltay = 0
 
 
 
@@ -128,6 +142,7 @@ while running:
         if event.type == pygame.KEYUP and event.key == pygame.K_UP:
             var = False
             player.move(counter, True)
+            counter = 0
 
 
         if event.type == pygame.QUIT:
@@ -137,6 +152,8 @@ while running:
         counter +=1
 
     keys = pygame.key.get_pressed()
+
+    player.gravity()
 
     if keys[pygame.K_UP]:
         pass
@@ -156,7 +173,7 @@ while running:
 
 
 
-
+    screen.fill((0, 0, 0, 0))
 
     objects.draw(screen)
 
